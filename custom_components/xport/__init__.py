@@ -1,7 +1,7 @@
 """The XPort integration."""
 from __future__ import annotations
 
-from homeassistant.components.xport.xport import XPort
+from .xport import XPort
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
