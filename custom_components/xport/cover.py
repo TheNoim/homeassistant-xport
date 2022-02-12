@@ -10,6 +10,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 from .xport import XPort
+from .base_entity import BaseXportEntity
 
 
 async def async_setup_entry(
@@ -30,18 +31,10 @@ async def async_setup_entry(
     async_add_entities(entities, update_before_add=True)
 
 
-class XPortCover(CoverEntity):
+class XPortCover(CoverEntity, BaseXportEntity):
     def __init__(self, xport: XPort, name: str, data: dict) -> None:
-        super().__init__()
-
-        self._xport = xport
-        self._name = name
-        self._data: dict = data
-
-    @property
-    def name(self):
-        """Name of the entity."""
-        return self._name
+        CoverEntity.__init__(self)
+        BaseXportEntity.__init__(self, xport, name, data, "cover")
 
     @property
     def unique_id(self):

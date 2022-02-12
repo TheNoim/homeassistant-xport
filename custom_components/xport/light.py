@@ -4,6 +4,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 from .xport import XPort
+from .base_entity import BaseXportEntity
 
 
 async def async_setup_entry(
@@ -24,18 +25,10 @@ async def async_setup_entry(
     async_add_entities(entities, update_before_add=True)
 
 
-class XPortLight(LightEntity):
+class XPortLight(LightEntity, BaseXportEntity):
     def __init__(self, xport: XPort, name: str, data: dict) -> None:
-        super().__init__()
-
-        self._xport = xport
-        self._name = name
-        self._data: dict = data
-
-    @property
-    def name(self):
-        """Name of the entity."""
-        return self._name
+        LightEntity.__init__(self)
+        BaseXportEntity.__init__(self, xport, name, data, "light")
 
     @property
     def is_on(self):

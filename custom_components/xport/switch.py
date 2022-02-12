@@ -1,9 +1,13 @@
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+import logging
 
 from .const import DOMAIN
 from .xport import XPort
+from .base_entity import BaseXportEntity
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -24,27 +28,15 @@ async def async_setup_entry(
     async_add_entities(entities, update_before_add=True)
 
 
-class XPortSwitch(SwitchEntity):
+class XPortSwitch(SwitchEntity, BaseXportEntity):
     def __init__(self, xport: XPort, name: str, data: dict) -> None:
-        super().__init__()
-
-        self._xport = xport
-        self._name = name
-        self._data: dict = data
-
-    @property
-    def name(self):
-        """Name of the entity."""
-        return self._name
+        SwitchEntity.__init__(self)
+        BaseXportEntity.__init__(self, xport, name, data, "switch")
 
     @property
     def is_on(self):
         """If the switch is currently on or off."""
         return self._data.get("value")
-
-    @property
-    def unique_id(self):
-        return "xport." + self._data.get("homeAssistantType") + self._data.get("name")
 
     async def async_update(self):
         """Update entity data"""

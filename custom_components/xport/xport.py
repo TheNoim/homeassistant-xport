@@ -73,8 +73,7 @@ class XPort:
 
         end_point = urllib.parse.urljoin(self._host, url)
 
-        req = urllib.request.Request(
-            end_point, data=encoded_payload, method=method)
+        req = urllib.request.Request(end_point, data=encoded_payload, method=method)
 
         req.add_header("Content-Type", "application/json")
 
